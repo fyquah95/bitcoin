@@ -295,7 +295,7 @@ static bool rest_block(HTTPRequest* req,
 
 static bool rest_block_extended(const util::Ref& context, HTTPRequest* req, const std::string& strURIPart)
 {
-    return rest_block(req, strURIPart, TxVerbosity::SHOW_DETAILS);
+    return rest_block(req, strURIPart, TxVerbosity::SHOW_DETAILS_AND_PREV_OUT);
 }
 
 static bool rest_block_notxdetails(const util::Ref& context, HTTPRequest* req, const std::string& strURIPart)

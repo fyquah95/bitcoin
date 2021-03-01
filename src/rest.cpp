@@ -231,7 +231,7 @@ static bool rest_headers(const util::Ref& context,
 
 static bool rest_block(HTTPRequest* req,
                        const std::string& strURIPart,
-                       bool showTxDetails)
+                       TxVerbosity tx_verbosity)
 {
     if (!CheckWarmup(req))
         return false;
@@ -280,7 +280,7 @@ static bool rest_block(HTTPRequest* req,
     }
 
     case RetFormat::JSON: {
-        UniValue objBlock = blockToJSON(block, tip, pblockindex, showTxDetails);
+        UniValue objBlock = blockToJSON(block, tip, pblockindex, tx_verbosity);
         std::string strJSON = objBlock.write() + "\n";
         req->WriteHeader("Content-Type", "application/json");
         req->WriteReply(HTTP_OK, strJSON);
@@ -295,12 +295,12 @@ static bool rest_block(HTTPRequest* req,
 
 static bool rest_block_extended(const util::Ref& context, HTTPRequest* req, const std::string& strURIPart)
 {
-    return rest_block(req, strURIPart, true);
+    return rest_block(req, strURIPart, TxVerbosity::SHOW_DETAILS);
 }
 
 static bool rest_block_notxdetails(const util::Ref& context, HTTPRequest* req, const std::string& strURIPart)
 {
-    return rest_block(req, strURIPart, false);
+    return rest_block(req, strURIPart, TxVerbosity::SHOW_TXID);
 }
 
 // A bit of a hack - dependency on a function defined in rpc/blockchain.cpp
